@@ -7,46 +7,47 @@ namespace Proje2
 
 
     {
-        internal static int HAZNEKOTA;
-        internal static int FULL = 8;
-        public static int Mus_Secim, Mus_Secim2;
+
+        public static int Mus_Secim = -1;
         public static int Mus_Para = -1;
         static int eklenen_para;
 
         public static Int32 Main()
         {
-
-            OtomatUrunler.UrunListele();
-
-            Console.WriteLine("Lutfen bir urun secin: 0-1-2-3-4-5-6-7. Admin Paneli icin 8'a Basin.");
-            int Mus_Secim = Convert.ToInt32(Console.ReadLine());
-
-           
-            if (Mus_Secim == 0 || Mus_Secim == 1 || Mus_Secim == 2 || Mus_Secim == 3 || Mus_Secim == 4 || Mus_Secim == 5 || Mus_Secim == 6 || Mus_Secim == 7)
+            while (Mus_Secim != -100)
             {
-                
-                if (OtomatUrunler.UrunAdetKontrol(Mus_Secim)==0)
+                OtomatUrunler.UrunListele();
+
+                Console.WriteLine("Lutfen bir urun secin: 0-1-2-3-4. Admin Paneli icin 8'a Basin.Cikis icin -100e basin");
+                int Mus_Secim = Convert.ToInt32(Console.ReadLine());
+
+                if (Mus_Secim == 0 || Mus_Secim == 1 || Mus_Secim == 2 || Mus_Secim == 3 || Mus_Secim == 4)
                 {
+
+                    OtomatUrunler.UrunAdetKontrol(Mus_Secim, 0, 1, 0);
+
                     Console.WriteLine("Lutfen Paranizi Otomata Birakin.");
-                    int Mus_Para = Convert.ToInt32(Console.ReadLine()); 
+                    int Mus_Para = Convert.ToInt32(Console.ReadLine());
 
                     OtomatUrunler.ParaKontrol(Mus_Secim, Mus_Para);
                 }
-               
-            }
 
-            else if (Mus_Secim == 8)
-            {
-                Admin.AdminPanel();
+
+                else if (Mus_Secim == 8)
+                {
+                    Admin.AdminPanel();
+                }
             }
-    
-            return 0;
+                return 0;
         }
     }
     internal class Admin : OtomatUrunler
     {
+        
         internal static int AdminPanel()
+
         {
+
             Console.WriteLine("Farklı Urun Ekle: 0");
             Console.WriteLine("Aynı Urunden Yeni Urun Ekle: 1");
             Console.WriteLine("Urun Guncelle: 2");
@@ -57,35 +58,24 @@ namespace Proje2
 
             int Admin_Secim = Convert.ToInt32(Console.ReadLine());
 
+
             if (Admin_Secim == 0)
             {
-                Console.WriteLine("Kacıncı Hazneye Yeni Urunu Eklemek istediginizi Secin.: 0-1-2-3-4-5-6-7");
+                Console.WriteLine("Kacıncı Hazneye Yeni Urunu Eklemek istediginizi Secin.: 0-1-2-3-4");
                 int Hazne = Convert.ToInt32(Console.ReadLine());
 
-                if (OtomatUrunler.UrunAdetKontrol(Hazne) == 1)
-
-                {
-                    Console.WriteLine("Yeni Urunleri Hazneye Yerlestirin");
-                }
-
-                else if (OtomatUrunler.UrunAdetKontrol(Hazne) == 0)
-
-                {
-                    Console.WriteLine("Bu hazne farklı bir urunle dolu oldugundan yeni ürün ekleyemezsiniz.");
-                }
+               UrunAdetKontrol(Hazne, 1, 0, 0);           
             }
 
             if (Admin_Secim == 1)
             {
-                Console.WriteLine("Kacıncı Hazneye Urun Eklemek istediginizi Secin.: 0-1-2-3-4-5-6-7");
+                Console.WriteLine("Kacıncı Hazneye Urun Eklemek istediginizi Secin.: 0-1-2-3-4");
                 int Hazne = Convert.ToInt32(Console.ReadLine());
 
-                if (OtomatUrunler.UrunAdetKontrol(Hazne) == 0)
+                Console.WriteLine("Urunu Hazneye Ekleyin.");
 
-                {
-                    Console.WriteLine("Yeni Urunleri Hazneye Ekleyin.");
-                }
-
+                UrunAdetKontrol(Hazne, 0, 0, 1);
+                                
             }
             if (Admin_Secim == 2)
             {
@@ -109,9 +99,11 @@ namespace Proje2
     }
     internal class OtomatUrunler : program
     {
+       
         internal static void UrunListele()
         {
-            string[] urunler = new string[FULL];
+            string[] urunler = new string[10];
+
 
             urunler[0] = "fanta";
             urunler[1] = "kola";
@@ -119,7 +111,7 @@ namespace Proje2
             urunler[3] = "cubuk_kraker";
             urunler[4] = "su";
 
-            int[] fiyatlar = new int[FULL];
+            int[] fiyatlar = new int[10];
 
             fiyatlar[0] = 50;
             fiyatlar[1] = 45;
@@ -128,7 +120,7 @@ namespace Proje2
             fiyatlar[4] = 10;
 
 
-            for (int i = 0; i < 8; i++)
+            for (int i = 0; i < 5; i++)
             {
                 Console.WriteLine(i + "." + urunler[i] + "=" + fiyatlar[i] + "TL");
             }
@@ -136,7 +128,7 @@ namespace Proje2
         }
         internal static int ParaKontrol(int secim, int para)
         {
-            int[] fiyatlar = new int[FULL];
+            int[] fiyatlar = new int[10];
 
             fiyatlar[0] = 50;
             fiyatlar[1] = 45;
@@ -179,11 +171,11 @@ namespace Proje2
             }
             return 0;
         }
-    
+
 
         internal static int Kalan_Para_Hesapla(int secim, int para)
         {
-            int[] fiyatlar = new int[FULL];
+            int[] fiyatlar = new int[10];
 
             fiyatlar[0] = 50;
             fiyatlar[1] = 45;
@@ -196,35 +188,62 @@ namespace Proje2
 
             return 0;
         }
-        internal static int UrunAdetKontrol(int secim) 
+        internal static int UrunAdetKontrol(int secim, int yeniurunekle, int uruncikarma, int urunekleme)
         {
-            
-            int[] adetler = new int[FULL];
+ 
+            int[] adetler = new int[10];
 
-            adetler[0] = 8;
-            adetler[1] = 8;
-            adetler[2] = 8;
-            adetler[3] = 8;
-            adetler[4] = 8;
+            adetler[0] = 6;
+            adetler[1] = 6;
+            adetler[2] = 6;
+            adetler[3] = 6;
+            adetler[4] = 6;
 
-            if (0 < adetler[secim] )
-            { 
-                    if (secim == 0 || secim == 1 || secim == 2 || secim == 3 || secim == 4 || secim == 5 || secim == 6 || secim == 7)
 
-                        adetler[secim] -= 1;
-                return 0;
-            }
-
-           else if (adetler[secim] == 0)
+            if (uruncikarma == 1)
             {
-                Console.WriteLine("Burada Urun Yoktur.");
-                return 1;
+                if (0 < adetler[secim])
+                {
+                    adetler[secim] -= 1;
+                    Console.WriteLine(adetler[secim]);
+
+                }
+
+                else if (adetler[secim] == 0)
+                {
+
+                    Console.WriteLine("Burada Urun Kalmamistir.");
+
+                }
             }
 
-            else
-                return 0;
 
+            else if (urunekleme == 1) 
+            {
+
+                if (adetler[secim] != 6)
+                {
+
+                    adetler[secim] += 1;
+
+                    Console.WriteLine("Urun hazneye eklendi.");
+
+                }
+
+                else if (adetler[secim] == 6 )
+                {
+                    Console.WriteLine("Burada kota doludur. Yeni Urun Ekleyemezsiniz.");
+
+                } 
+            }
+            
+            else if(yeniurunekle == 1)
+            {
+                adetler[secim] += 1;
+                Console.WriteLine("Yeni Urun hazneye eklendi.");
+            }
+
+            return 0;
         }
-        
-     }
+    }
 }
